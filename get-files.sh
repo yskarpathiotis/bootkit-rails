@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# bash <(curl -s https://raw.githubusercontent.com/yskarpathiotis/bootkit-rails/main/get-files.sh)
+
 # Check for required environment variables
 # if [ -z "$APP_NAME" ]; then
 #     echo "Error: APP_NAME environment variable is not set"
