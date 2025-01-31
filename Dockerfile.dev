@@ -49,7 +49,6 @@ COPY . .
 
 # if using an entrypoint
 COPY entrypoint.sh /rails/
-RUN chmod +x /rails/entrypoint.sh
 ENTRYPOINT ["/rails/entrypoint.sh"]
 
 CMD ["bin/dev"]

@@ -32,6 +32,9 @@ for file in "${FILES[@]}"; do
     curl -O "$BASE_URL/$file"
 done
 
+chmod +x setup-app.sh
+chmod +x install-rails.sh
+chmod +x entrypoint.sh
 echo "All files downloaded."
 
 git init
