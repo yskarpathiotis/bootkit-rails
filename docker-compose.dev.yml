@@ -1,0 +1,22 @@
+version: '3.9'
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+      target: development
+      args:
+        - APP_NAME=${APP_NAME}
+    # command: /rails/bin/rails server --port 3000 --binding 0.0.0.0
+    container_name: ${APP_NAME}
+    env_file: .env
+    image: ${APP_NAME}_web
+    ports:
+      - "3000:3000"
+    stdin_open: true
+    tty: true
+    volumes:
+      - .:/rails:cached
+      # - /Users/yiannisskarpathiotis/Code/ruby/gems/renderer:/renderer:cached
+      # - /Users/yiannisskarpathiotis/Code/ruby/gems/stimulus_ui:/stimulus_ui:cached
+      # - /Users/yiannisskarpathiotis/Code/ruby/gems/nvt_tailwind_ui:/nvt_tailwind_ui:cached

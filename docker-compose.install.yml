@@ -1,0 +1,16 @@
+version: '3.9'
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile.install
+      target: install
+      args:
+        - APP_NAME=${APP_NAME}
+    container_name: ${APP_NAME}
+    env_file: .env
+    image: ${APP_NAME}_web
+    stdin_open: true
+    tty: true
+    volumes:
+      - .:/${APP_NAME}:cached

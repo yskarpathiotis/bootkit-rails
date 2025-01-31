@@ -1,0 +1,55 @@
+# for a new app:
+# - rename workdir from rails to the app name
+# - comment out installing bundler and bundling
+# - rename volume in docker-compose to app name
+# - build (dclrbc)
+# - enter the container (dclr bash)
+# - install rails: gem install rails
+# - create new rails app: rails new . -d postgresql -T --css tailwind
+
+# - rename workdir from app name to the rails
+# - add back installing bundler and bundling
+# - rename volume in docker-compose back to rails
+
+# syntax = docker/dockerfile:1
+
+# Make sure RUBY_VERSION matches the Ruby version in .ruby-version and Gemfile
+ARG RUBY_VERSION=3.4.1
+FROM registry.docker.com/library/ruby:$RUBY_VERSION-slim as base
+
+# Rails app lives here
+WORKDIR /rails
+
+# Throw-away build stage to reduce size of final image
+FROM base as build
+
+# Install packages needed to build gems
+RUN apt-get update -qq && \
+    apt-get install --no-install-recommends -y \
+    build-essential \
+    curl \
+    git \
+    libjemalloc2 \
+    libvips \
+    libpq-dev
+# RUN apt-get update -qq && \
+#     apt-get install --no-install-recommends -y curl libjemalloc2 libvips postgresql-client && \
+#     rm -rf /var/lib/apt/lists /var/cache/apt/archives
+
+# Comment out for initial install
+COPY Gemfile Gemfile.lock ./
+
+# this is commented out because during the Docker build process (when bundle install runs), the volume mount doesn't exist yet - volume mounts only become available when the container is running. We bundle in the entrypoint
+# RUN bundle install
+
+FROM build as development
+
+# Copy application code
+COPY . .
+
+# if using an entrypoint
+COPY entrypoint.sh /rails/
+RUN chmod +x /rails/entrypoint.sh
+ENTRYPOINT ["/rails/entrypoint.sh"]
+
+CMD ["bin/dev"]
