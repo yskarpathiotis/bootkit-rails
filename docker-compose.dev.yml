@@ -17,6 +17,8 @@ services:
     tty: true
     volumes:
       - .:/rails:cached
+      - /Users/yiannisskarpathiotis/.ssh/docker:/root/.ssh # for Kamal
+      - /var/run/docker.sock:/var/run/docker.sock # for Kamal
       # - /Users/yiannisskarpathiotis/Code/ruby/gems/renderer:/renderer:cached
       # - /Users/yiannisskarpathiotis/Code/ruby/gems/stimulus_ui:/stimulus_ui:cached
       # - /Users/yiannisskarpathiotis/Code/ruby/gems/nvt_tailwind_ui:/nvt_tailwind_ui:cached
